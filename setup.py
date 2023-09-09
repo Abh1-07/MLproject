@@ -12,7 +12,7 @@ def get_requirements(file_path:str)->List[str]:
     requirements = []
     with open(file_path) as file_obj:   # open the requirements txt file and reading each line for packages
         requirements = file_obj.readlines()
-        # wheneveer this is executed, \n from file will also be recorded.
+        # whenever this is executed, \n from file will also be recorded.
         # using list comprehension to replace \n with blanks
         requirements = [req.replace('\n', '') for req in requirements]
         if HYPEN_EDOT in requirements:
