@@ -168,6 +168,10 @@ cython_debug/
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+.idea/01 Student Performance.iml
+.idea/misc.xml
+.idea
+.idea/vcs.xml
 
 # AWS User-specific
 .idea/**/aws.xml
@@ -195,10 +199,10 @@ cython_debug/
 # .idea/artifacts
 # .idea/compiler.xml
 # .idea/jarRepositories.xml
-# .idea/modules.xml
-# .idea/*.iml
-# .idea/modules
-# *.iml
+ .idea/modules.xml
+.idea/*.iml
+ .idea/modules
+ *.iml
 # *.ipr
 
 # CMake
