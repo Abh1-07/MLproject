@@ -5,7 +5,7 @@ Building own custom exception for the project
 # This module provides access to some variables used or maintained by the interpreter and
 # to functions that interact strongly with the interpreter. It is always available.
 import sys   # any exception handling going on sys will already know of it
-import logging
+from src.logger import logging # importing the logger.py file
 def error_message_detail(error,error_detail:sys):
     _,_,exc_tb = error_detail.exc_info()  # carrys 3 values, 3rd imp -> info of on which file, which line
     file_name = exc_tb.tb_frame.f_code.co_filename # GEtting where filename is stored(in documentation)
@@ -22,14 +22,13 @@ class CustomException(Exception): # Inheriting from Parent Exception
         return self.error_message
 
 
-'''
 # CHECKING PROGRAM
+"""
 if __name__ == '__main__':
 
     try:
         a = 1/0
     except Exception as e:
-        logging.info('Divide by Zero Error')
+        logging.info('Divide by Zero Error')  # initially wont log as the logger.py has to be called above as a package
         raise CustomException(e,sys)
-
-'''
+"""
