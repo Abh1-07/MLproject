@@ -63,6 +63,7 @@ class DataTransformation:
         try:
             train_df = pd.read_csv(train_path)
             test_df = pd.read_csv(test_path)
+            # getting the data from data ingestion and reading it
 
             logging.info('Reading Train and Test data Completed')
             logging.info('Obtaining Preprocessing Object')
@@ -72,17 +73,21 @@ class DataTransformation:
             num_features = ['reading score', 'writing score']
             cat_features = ['gender', 'race/ethnicity', 'parental level of education', 'lunch',
                             'test preparation course']
+            #making df for as x_train, x_test, y_train, y_test
             input_feature_train_df = train_df.drop(columns = [target_column],axis = 1)
             target_feature_train_df = train_df[target_column]
             input_feature_test_df = test_df.drop(columns=[target_column], axis=1)
             target_feature_test_df = test_df[target_column]
 
             logging.info('Applying preprocessing object to training and testing DataFrame')
-
+                # calling the saved pickle file as preprocessing_obj and doing fit_tranform on training dataset.
+                # and transform on test dataset
             input_feature_train_arr = preprocessing_obj.fit_transform(input_feature_train_df)
             input_feature_test_arr = preprocessing_obj.transform(input_feature_test_df)
+                # combininh the dataset and the transformed data of training and test set as array
             train_arr = np.c_[input_feature_train_arr, np.array(target_feature_train_df)]
             test_arr = np.c_[input_feature_test_arr,np.array(target_feature_test_df)]
+
             logging.info('Saved Preprocessed Objects')
             save_object(file_path =  self.data_transform_config.preprocessor_obj_path,obj = preprocessing_obj)
 
