@@ -7,7 +7,7 @@ from sklearn.ensemble import(
     AdaBoostRegressor,
 
     RandomForestRegressor)
-from sklearn.linear_model import LinearRegression,Ridge,Lasso
+from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score  # to check R^2 Score for every algo choosing the highest value
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
@@ -40,8 +40,7 @@ class ModelTrainer:
             # making a dict for all the training models to try
             models = {
                 'Linear Regression': LinearRegression(),
-                "Ridge": Ridge(),
-                'Lasso': Lasso(),
+
                 'K-Neighbors Regressor': KNeighborsRegressor(),
                 'Decision Tree': DecisionTreeRegressor(),
                 'Random Forest Regressor': RandomForestRegressor(),
@@ -49,8 +48,39 @@ class ModelTrainer:
                 "CatBoosting": CatBoostRegressor(verbose = False),
                 'Ada Boosting': AdaBoostRegressor()
             }
+            params = {
+                'Linear Regression': {},
+                'K-Neighbors Regressor': {'algorithm':['ball_tree', 'kd_tree', 'brute'],
+                                           'leaf_size': [18, 20, 25,],
+                                           'n_neighbors': [3, 5, 7, 9, 11, 13, 15]},
+                "Decision Tree": {'criterion': ['squared_error', 'absolute_error', 'friedman_mse', 'poisson'],
+                                  'max_depth': range(2,10,1),
+                                  'min_samples_leaf': range(1,10,1),
+                                  'min_samples_split': range(2,10,1),
+                                  'splitter': ['best', 'random']},
+                'Random Forest Regressor':  {"n_estimators" : [20,60,90],
+                                            'criterion': ['squared_error', 'absolute_error', 'friedman_mse', 'poisson'],
+                                            'max_depth': range(2,5,1),
+                                            'min_samples_leaf': range(1,5,1),
+                                            'min_samples_split': range(2,5,1),
+                                            'max_features': ['auto','log2']},
+                'XGBRegressor': {'learning_rate': [1,0.5,0.1,0.01,0.001],
+                                    'max_depth': [3,5,10,20],
+                                    'n_estimators': [10,50,100]},
+                "CatBoosting": {
+                    'depth': [6, 8, 10],
+                    'learning_rate': [0.01, 0.05, 0.1],
+                    'iterations': [30, 50, 100]
+                },
+                "Ada Boosting": {
+                    'learning_rate': [.1, .01, 0.5, .001],
+                    # 'loss':['linear','square','exponential'],
+                    'n_estimators': [8, 16, 32, 64, 128, 256]}
 
-            models_report: dict = evaluate_model(X_train= x_train, Y_train= y_train, X_test= x_test, Y_test= y_test, models= models)
+
+            }
+
+            models_report: dict = evaluate_model(X_train= x_train, Y_train= y_train, X_test= x_test, Y_test= y_test, models= models, param= params)
 
             # getting model with max r2_sqr
             best_model_score = max(sorted(list(models_report.values())))
